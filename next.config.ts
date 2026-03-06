@@ -8,6 +8,17 @@ const nextConfig = {
   output: "export",
 
   /**
+   * Base path for deployment.
+   * Use empty string for root, or repository name for subdirectory (e.g., /callgraphs-generator)
+   */
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+
+  /**
+   * trailingSlash for proper static export routing
+   */
+  trailingSlash: true,
+
+  /**
    * Disable server-based image optimization. Next.js does not support
    * dynamic features with static exports.
    *
