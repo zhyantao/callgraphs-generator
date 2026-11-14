@@ -11,7 +11,7 @@
   <link rel="icon" href="./icons/favicon.ico" sizes="32x32" type="image/x-icon">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="./css/style.css?v=20261115i">
+  <link rel="stylesheet" href="./css/style.css?v=20261115j">
 </head>
 <body>
   <!-- Header / nav（与 zhyantao.github.io 博客站一致） -->
@@ -100,6 +100,15 @@ objdump -dr main.o &gt; main.dump</pre>
 
       <p class="sans message" id="message" hidden></p>
 
+      <!-- 解析日志（在开始分析栏目内展示） -->
+      <div class="graph-shell" id="log-shell" hidden>
+        <div class="graph-toolbar">
+          <span class="panel-caption">解析日志</span>
+          <button id="btn-close-log" class="btn btn-quiet btn-sm" type="button">关闭</button>
+        </div>
+        <pre class="build-log" id="build-log">暂无日志</pre>
+      </div>
+
       <!-- 调用图工具行 -->
       <div class="btn-row" id="graph-tools" hidden>
         <button id="btn-save-graph" class="btn btn-quiet" type="button">保存调用图</button>
@@ -110,15 +119,6 @@ objdump -dr main.o &gt; main.dump</pre>
           <input type="file" id="graph-input" accept=".zip,.json" hidden>
         </label>
       </div>
-    </div>
-
-    <!-- 解析日志 -->
-    <div class="graph-shell" id="log-shell" hidden>
-      <div class="graph-toolbar">
-        <span class="panel-caption">解析日志</span>
-        <button id="btn-close-log" class="btn btn-quiet btn-sm" type="button">关闭</button>
-      </div>
-      <pre class="build-log" id="build-log">暂无日志</pre>
     </div>
 
     <!-- 第三步：调用关系图 -->
@@ -186,10 +186,10 @@ objdump -dr main.o &gt; main.dump</pre>
   <script src="./vendor/d3.v7.min.js"></script>
   <script src="./vendor/jszip.min.js"></script>
   <!-- 应用逻辑（普通脚本，按依赖顺序加载；file:// 直接打开也可用） -->
-  <script src="./js/db.js?v=20261115i"></script>
-  <script src="./js/objdump-graph.js?v=20261115i"></script>
-  <script src="./js/func-list.js?v=20261115i"></script>
-  <script src="./js/viewer.js?v=20261115i"></script>
-  <script src="./js/main.js?v=20261115i"></script>
+  <script src="./js/db.js?v=20261115j"></script>
+  <script src="./js/objdump-graph.js?v=20261115j"></script>
+  <script src="./js/func-list.js?v=20261115j"></script>
+  <script src="./js/viewer.js?v=20261115j"></script>
+  <script src="./js/main.js?v=20261115j"></script>
 </body>
 </html>

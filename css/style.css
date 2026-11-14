@@ -485,6 +485,11 @@ details.guide > summary:hover {
   overflow: hidden;
   margin-bottom: 2rem;
 }
+/* 面板内嵌的解析日志：去掉大间距 */
+.panel .graph-shell {
+  margin-bottom: 0;
+  margin-top: 1.2rem;
+}
 .graph-toolbar {
   padding: 0.8rem 1.2rem;
   border-bottom: 1px solid var(--border-soft);
