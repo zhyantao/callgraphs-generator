@@ -448,13 +448,14 @@ details.guide > summary:hover {
 
 /* ---------- Function list ---------- */
 .func-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 46rem;
 }
 .func-item {
   border-left: 2px solid var(--border-soft);
-  padding: 0.3rem 0.8rem;
+  padding: 0.35rem 0.8rem;
 }
 .func-item .func-name {
   font-size: 1.25rem;
