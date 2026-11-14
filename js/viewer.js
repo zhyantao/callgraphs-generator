@@ -22,6 +22,11 @@ let callersOf = {};   // id -> [caller ids]
 let calleesOf = {};   // id -> [callee ids]
 
 const NODE_RADIUS = 24;
+const LABEL_MAX = 16; // 图上函数名最大显示字符数，超出截断（悬停节点看全名）
+
+function shortLabel(name) {
+  return name && name.length > LABEL_MAX ? name.slice(0, LABEL_MAX - 1) + '…' : name;
+}
 
 // ------------------------------------------------------------- 数据准备
 
@@ -65,11 +70,13 @@ function loadCallGraph(nodes, edges) {
 function selectFunction(id) {
   if (!nodeById[id]) return;
   selectedNodeId = id;
+  setFunctionViewMode('tree'); // 选中函数后函数列表切换为层级视图
   updateView();
 }
 
 function showAllFunctions() {
   selectedNodeId = null;
+  setFunctionViewMode('list');
   updateView();
 }
 
@@ -253,9 +260,11 @@ function renderCallGraph(nodes, edges) {
     .attr('stroke', (d) => (d.id === selectedNodeId ? '#ffb000' : '#fffff8'))
     .attr('stroke-width', (d) => (d.id === selectedNodeId ? 3 : 2));
 
-  // 节点标签
+  // 节点标签（长函数名截断，避免重叠；完整名字通过悬停 tooltip 查看）
+  node.append('title')
+    .text((d) => `${d.name}（${d.file || ''}）`);
   node.append('text')
-    .text((d) => d.name)
+    .text((d) => shortLabel(d.name))
     .attr('x', 0)
     .attr('y', 35)
     .attr('text-anchor', 'middle')
