@@ -7,7 +7,6 @@ const containerEl = document.getElementById('graph-container');
 const shellEl = document.getElementById('graph-shell');
 const emptyEl = document.getElementById('graph-empty');
 const statsEl = document.getElementById('graph-stats');
-const infoEl = document.getElementById('node-info');
 const funcPanelEl = document.getElementById('func-panel');
 const funcGridEl = document.getElementById('func-grid');
 const btnShowAllEl = document.getElementById('btn-show-all');
@@ -103,62 +102,6 @@ function updateView() {
     onSelect: selectFunction,
     counts: (id) => ({ callers: (callersOf[id] || []).length, callees: (calleesOf[id] || []).length }),
   });
-  renderNodeInfo();
-}
-
-// ------------------------------------------------------------- 节点信息面板
-
-function makeChipRow(label, ids) {
-  const sec = document.createElement('div');
-  sec.className = 'info-sec';
-  const t = document.createElement('div');
-  t.className = 'info-label sans';
-  t.textContent = `${label} (${ids.length})`;
-  const row = document.createElement('div');
-  row.className = 'chip-row';
-  if (ids.length === 0) {
-    const empty = document.createElement('span');
-    empty.className = 'sans chip-empty';
-    empty.textContent = '无';
-    row.appendChild(empty);
-  }
-  for (const id of ids) {
-    const chip = document.createElement('button');
-    chip.type = 'button';
-    chip.className = 'chip sans';
-    chip.textContent = nodeById[id].name;
-    chip.title = nodeById[id].file || '';
-    chip.addEventListener('click', () => selectFunction(id));
-    row.appendChild(chip);
-  }
-  sec.appendChild(t);
-  sec.appendChild(row);
-  return sec;
-}
-
-function renderNodeInfo() {
-  if (!selectedNodeId || !nodeById[selectedNodeId]) {
-    infoEl.hidden = true;
-    infoEl.innerHTML = '';
-    return;
-  }
-  const node = nodeById[selectedNodeId];
-  infoEl.hidden = false;
-  infoEl.innerHTML = '';
-
-  const head = document.createElement('div');
-  head.className = 'info-head';
-  const strong = document.createElement('strong');
-  strong.textContent = node.name;
-  head.appendChild(strong);
-  const fileSpan = document.createElement('span');
-  fileSpan.className = 'sans info-file';
-  fileSpan.textContent = `　${node.file || ''}`;
-  head.appendChild(fileSpan);
-  infoEl.appendChild(head);
-
-  infoEl.appendChild(makeChipRow('调用 ↓', calleesOf[selectedNodeId] || []));
-  infoEl.appendChild(makeChipRow('被调用 ↑', callersOf[selectedNodeId] || []));
 }
 
 // ------------------------------------------------------------- d3 渲染

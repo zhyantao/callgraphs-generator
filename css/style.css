@@ -500,11 +500,6 @@ details.guide > summary:hover {
 .graph-container {
   overflow: hidden;
 }
-.graph-node-info {
-  padding: 1rem 1.4rem;
-  border-top: 1px solid var(--border-soft);
-  font-size: 1.25rem;
-}
 .graph-empty {
   border: 1px solid var(--border-soft);
   text-align: center;
@@ -627,48 +622,6 @@ details.guide > summary:hover {
   color: var(--border-color);
   font-style: italic;
   padding: 0.5rem 0.8rem;
-}
-
-/* ---------- 节点信息面板（局部上下文） ---------- */
-.info-head {
-  margin-bottom: 0.6rem;
-}
-.info-file {
-  font-size: 1.05rem;
-  color: var(--border-color);
-}
-.info-sec {
-  margin-top: 1rem;
-}
-.info-label {
-  font-size: 1rem;
-  color: var(--border-color);
-  margin-bottom: 0.7rem;
-  padding-bottom: 0.25rem;
-  border-bottom: 1px solid var(--border-soft);
-}
-.chip-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-}
-.chip {
-  font-size: 1rem;
-  padding: 0.15rem 0.7rem;
-  border: 1px solid var(--border-soft);
-  background: rgba(160, 0, 0, 0.04);
-  color: #1a1a1a;
-  cursor: pointer;
-  border-radius: 2px;
-}
-.chip:hover {
-  border-color: #a00000;
-  background: rgba(160, 0, 0, 0.08);
-}
-.chip-empty {
-  font-size: 1rem;
-  color: var(--border-color);
-  font-style: italic;
 }
 
 /* ---------- 函数列表：模式切换 + 层级树 ---------- */
