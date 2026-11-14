@@ -183,7 +183,7 @@ header.site-header > nav.group {
   padding-top: 2rem;
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
 }
 header.site-header > nav.group a {
   font-size: 1.2rem;
@@ -201,10 +201,9 @@ header.site-header > nav.group a:hover {
   color: var(--text-color);
 }
 header.site-header > nav.group a img.badge {
-  height: 3.4rem;
+  height: 2.4rem;
   width: auto;
-  position: relative;
-  top: -1rem;
+  display: block;
   padding-right: 0.6rem;
 }
 header.site-header > nav.group a.active:before {
