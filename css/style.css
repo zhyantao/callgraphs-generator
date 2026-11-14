@@ -451,7 +451,6 @@ details.guide > summary:hover {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  max-width: 46rem;
 }
 .func-item {
   border-left: 2px solid var(--border-soft);

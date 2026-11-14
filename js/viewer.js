@@ -69,6 +69,7 @@ function loadCallGraph(nodes, edges) {
 function selectFunction(id) {
   if (!nodeById[id]) return;
   selectedNodeId = id;
+  setFunctionViewMode('tree'); // 列表模式下选中函数 → 自动跳转到层级视图
   updateView();
 }
 
