@@ -70,13 +70,11 @@ function loadCallGraph(nodes, edges) {
 function selectFunction(id) {
   if (!nodeById[id]) return;
   selectedNodeId = id;
-  setFunctionViewMode('tree'); // 选中函数后函数列表切换为层级视图
   updateView();
 }
 
 function showAllFunctions() {
   selectedNodeId = null;
-  setFunctionViewMode('list');
   updateView();
 }
 

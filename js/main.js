@@ -396,5 +396,34 @@ graphInput.addEventListener('change', async () => {
   graphInput.value = '';
 });
 
+// ------------------------------------------------------------- 启动自动恢复
+// 数据保存在 IndexedDB 中，刷新页面不会丢失；这里把上次保存的
+// 文件列表和最近的调用图自动恢复到界面，免去手动点"加载已保存"
+async function restoreLocalState() {
+  try {
+    const saved = await getSourceFiles();
+    if (saved.length > 0) {
+      files = saved.map((f) => ({ name: f.name, content: f.content }));
+      renderFileList();
+      uploadMsg.textContent = `已自动恢复 ${files.length} 个本地保存的文件`;
+      uploadMsg.hidden = false;
+    }
+    const graphs = await getCallGraphs();
+    if (graphs.length > 0) {
+      const latest = graphs[graphs.length - 1];
+      const nodes = JSON.parse(latest.nodes);
+      const edges = JSON.parse(latest.edges);
+      if (nodes.length > 0) {
+        callGraph = { nodes, edges };
+        loadCallGraph(nodes, edges);
+        graphTools.hidden = false;
+      }
+    }
+  } catch (error) {
+    console.error('自动恢复本地数据失败:', error);
+  }
+}
+restoreLocalState();
+
 // 页面脚本就绪标记（供无 UI 自动化检测脚本是否正常执行）
 document.documentElement.dataset.appReady = '1';
