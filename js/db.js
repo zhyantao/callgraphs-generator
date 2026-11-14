@@ -113,3 +113,16 @@ async function deleteCallGraph(id) {
     tx.onerror = () => reject(tx.error);
   });
 }
+
+// ---------------- 清空全部本地数据 ----------------
+
+async function clearAllData() {
+  const database = await initDB();
+  return new Promise((resolve, reject) => {
+    const tx = database.transaction(['sourceFiles', 'callGraphs'], 'readwrite');
+    tx.objectStore('sourceFiles').clear();
+    tx.objectStore('callGraphs').clear();
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}

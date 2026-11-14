@@ -168,6 +168,22 @@ btnLoadFiles.addEventListener('click', async () => {
   refreshUploadButtons();
 });
 
+$('btn-clear-db').addEventListener('click', async () => {
+  const message = '确定清除浏览器中保存的全部数据吗？\n\n包括已保存的反汇编文件和调用关系图，此操作不可恢复。';
+  if (!window.confirm(message)) return;
+  try {
+    await clearAllData();
+    files = [];
+    renderFileList();
+    uploadMsg.textContent = '已清除浏览器本地保存的所有数据';
+    uploadMsg.hidden = false;
+  } catch (error) {
+    uploadMsg.textContent = `清除失败: ${error}`;
+    uploadMsg.hidden = false;
+    console.error(error);
+  }
+});
+
 // ------------------------------------------------------------- 解析
 btnAnalyze.addEventListener('click', async () => {
   if (files.length === 0) {
