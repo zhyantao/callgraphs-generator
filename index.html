@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Callgraphs Generator — C/C++ 调用关系分析</title>
+  <meta name="description" content="基于浏览器的 C/C++ 调用关系分析工具：上传 objdump 反汇编文本，纯前端解析，无需服务器">
+
+  <!-- 网站图标 -->
+  <link rel="icon" href="./icons/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="./icons/favicon.ico" sizes="32x32" type="image/x-icon">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <!-- Header / nav（与 zhyantao.github.io 博客站一致） -->
+  <header class="site-header">
+    <nav class="group">
+      <a href="https://zhyantao.github.io/">ZHYANTAO</a>
+      <a href="https://zhyantao.github.io/docs/">DOCS</a>
+      <a href="https://zhyantao.github.io/PS1-generator/">PS1</a>
+      <a href="./" class="active">CALLGRAPH</a>
+    </nav>
+  </header>
+
+  <main style="padding: 2rem 0 3rem;">
+    <!-- 标题区 -->
+    <section>
+      <h1>C/C++ 调用关系分析</h1>
+      <p class="sans subtitle">
+        上传本地 objdump 反汇编文本，精确提取真实调用关系 — 纯前端解析，无需服务器
+      </p>
+      <hr class="slender">
+    </section>
+
+    <!-- 第一步：上传 -->
+    <div class="panel">
+      <h2 class="panel-title">上传反汇编文本</h2>
+
+      <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="选择文件">
+        <p class="dropzone-hint" id="dropzone-hint">拖拽 objdump 文本到此处，或点击选择</p>
+        <p class="sans dropzone-sub">
+          即 objdump -d 的输出文件（.txt / .dump / 任意文本），可多选自动合并
+        </p>
+      </div>
+      <input type="file" id="file-input" multiple
+             accept=".txt,.dump,.out,.log,.dis,.asm,.s,.text" hidden>
+
+      <div id="file-list-wrap" hidden>
+        <div class="file-list-head">
+          <span class="sans">已选文件 (<span id="file-count">0</span>)</span>
+          <button id="btn-clear-files" class="list-btn" type="button">清除全部</button>
+        </div>
+        <ul class="app-list file-list" id="file-list"></ul>
+      </div>
+
+      <div class="btn-row">
+        <button id="btn-save-files" class="btn btn-quiet" type="button" disabled>保存到浏览器</button>
+        <button id="btn-load-files" class="btn btn-quiet" type="button">加载已保存</button>
+      </div>
+
+      <p class="sans upload-msg" id="upload-msg" hidden></p>
+    </div>
+
+    <!-- 第二步：分析 -->
+    <div class="panel">
+      <h2 class="panel-title">开始分析</h2>
+
+      <button id="btn-analyze" class="btn btn-primary" type="button" disabled style="padding: 0.7rem 2rem;">
+        解析调用关系
+      </button>
+
+      <p class="sans hint">
+        解析结果 100% 来自 objdump 的真实反汇编与符号标注；间接调用（函数指针）不包含在结果中。多个文件可同时上传，跨文件调用自动关联。
+      </p>
+
+      <!-- 操作指引 -->
+      <details class="guide">
+        <summary>如何生成 objdump 文件</summary>
+        <div class="guide-body">
+          <p>在你自己的电脑上对编译好的产物执行 objdump，把输出保存为文本后上传：</p>
+<pre># Linux 下的 ELF 可执行文件（最常用）
+objdump -d myapp.elf &gt; myapp.dump
+
+# macOS 上分析 Mach-O 可执行文件
+objdump -d myapp &gt; myapp.dump
+
+# 交叉编译产物（用对应工具链的 objdump）
+aarch64-linux-gnu-objdump -d myapp.elf &gt; myapp.dump
+
+# 目标文件 / 静态库也可以（注意加 -r 显示重定位）
+objdump -dr main.o &gt; main.dump</pre>
+          <p class="sans hint">
+            注意：产物需要保留符号表（编译时不要加 -s / 不要 strip），否则 objdump 标注不出函数名。
+          </p>
+        </div>
+      </details>
+
+      <p class="sans message" id="message" hidden></p>
+
+      <!-- 调用图工具行 -->
+      <div class="btn-row" id="graph-tools" hidden>
+        <button id="btn-save-graph" class="btn btn-quiet" type="button">保存调用图</button>
+        <button id="btn-load-graph" class="btn btn-quiet" type="button">加载已保存</button>
+        <button id="btn-export-graph" class="btn btn-quiet" type="button">导出 ZIP</button>
+        <label class="btn btn-quiet import-label">
+          导入调用图
+          <input type="file" id="graph-input" accept=".zip,.json" hidden>
+        </label>
+      </div>
+    </div>
+
+    <!-- 解析日志 -->
+    <div class="graph-shell" id="log-shell" hidden>
+      <div class="graph-toolbar">
+        <span class="panel-caption">解析日志</span>
+        <button id="btn-close-log" class="btn btn-quiet btn-sm" type="button">关闭</button>
+      </div>
+      <pre class="build-log" id="build-log">暂无日志</pre>
+    </div>
+
+    <!-- 第三步：调用关系图 -->
+    <div class="graph-shell" id="graph-shell" hidden>
+      <div class="graph-toolbar">
+        <span class="panel-caption">调用关系图 (拖拽移动，滚轮缩放)</span>
+        <span class="sans graph-stats" id="graph-stats"></span>
+      </div>
+      <div class="graph-container" id="graph-container">
+        <svg id="graph-svg"></svg>
+      </div>
+      <div class="graph-node-info" id="node-info" hidden></div>
+    </div>
+
+    <!-- 空态 -->
+    <div class="graph-empty" id="graph-empty">
+      <p class="empty-title">暂无调用关系图</p>
+      <p class="sans empty-sub">请先上传 objdump 反汇编文本并进行分析</p>
+    </div>
+
+    <!-- 函数列表 -->
+    <div class="panel" id="func-panel" hidden>
+      <h3 class="panel-title">函数列表</h3>
+      <div class="func-grid" id="func-grid"></div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <hr class="slender">
+    <ul class="footer-links">
+      <li><a href="mailto:yantao.z@outlook.com">✉</a></li>
+      <li><a href="https://github.com/zhyantao">GitHub</a></li>
+    </ul>
+    <div class="credits">
+      <span>
+        &copy; 2026 &nbsp; YANTAO ZHANG &nbsp; Powered by
+        <a href="https://github.com/edwardtufte/tufte-css">Tufte CSS</a>.
+      </span>
+    </div>
+  </footer>
+
+  <!-- 第三方库（本地化，离线可用） -->
+  <script src="./vendor/d3.v7.min.js"></script>
+  <script src="./vendor/jszip.min.js"></script>
+  <!-- 应用逻辑（普通脚本，按依赖顺序加载；file:// 直接打开也可用） -->
+  <script src="./js/db.js"></script>
+  <script src="./js/objdump-graph.js"></script>
+  <script src="./js/func-list.js"></script>
+  <script src="./js/viewer.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+</html>

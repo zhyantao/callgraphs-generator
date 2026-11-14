@@ -1,0 +1,538 @@
+/*****************************************************************************/
+/* Tufte-style theme for Callgraphs Generator
+/* Based on Tufte CSS (https://github.com/edwardtufte/tufte-css)
+/* matching zhyantao.github.io (tufte-jekyll theme)
+/*****************************************************************************/
+
+/* ---------- Fonts (et-book, same as reference site) ---------- */
+@font-face {
+  font-family: "ETBembo";
+  src: url("../fonts/et-book/et-book-roman-line-figures.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ETBembo";
+  src: url("../fonts/et-book/et-book-display-italic-old-style-figures.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ETBembo";
+  src: url("../fonts/et-book/et-book-bold-line-figures.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ETBemboOldStyle";
+  src: url("../fonts/et-book/et-book-roman-old-style-figures.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Palette (same constants as reference _settings.scss) ---------- */
+:root {
+  --text-color: #111111;
+  --bg-color: #fffff8;
+  --contrast-color: #a00000;
+  --border-color: #333333;
+  --border-soft: rgba(51, 51, 51, 0.25);
+  --body-font: "ETBembo", "Chronicle Text G2", Palatino, "Palatino Linotype",
+    "Palatino LT STD", "Book Antiqua", Georgia, "Songti SC", "STSong", "SimSun",
+    serif;
+  --sans-font: "Gill Sans", "Gill Sans MT", "Gotham Narrow", Lato, Calibri,
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --code-font: Consolas, "Liberation Mono", Menlo, Courier, "PingFang SC",
+    monospace;
+}
+
+/* ---------- Global resets ---------- */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* [hidden] must win over component display rules (e.g. .btn-row { display: flex }) */
+[hidden] {
+  display: none !important;
+}
+
+html {
+  font-size: 11px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+@media screen and (min-width: 800px)  { html { font-size: 12px; } }
+@media screen and (min-width: 900px)  { html { font-size: 13px; } }
+@media screen and (min-width: 1000px) { html { font-size: 14px; } }
+@media screen and (min-width: 1100px) { html { font-size: 15px; } }
+@media screen and (min-width: 1200px) { html { font-size: 16px; } }
+@media screen and (min-width: 1300px) { html { font-size: 17px; } }
+
+/* 居中布局：工具页无边注（sidenote），不采用 Tufte 默认的 12.5% 左侧留白 */
+body {
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: var(--body-font);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  max-width: 1400px;
+}
+@media screen and (max-width: 760px) {
+  body {
+    width: 90%;
+  }
+}
+
+/* ---------- Typography ---------- */
+h1 {
+  font-weight: 400;
+  margin-top: 1.568rem;
+  margin-bottom: 1.568rem;
+  font-size: 2.5rem;
+  line-height: 1.1;
+}
+
+h2 {
+  font-style: italic;
+  font-weight: 400;
+  margin-top: 1.866666666666667rem;
+  margin-bottom: 0.6rem;
+  font-size: 2.1rem;
+  line-height: 1.1;
+}
+
+h3 {
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.8rem;
+  margin-top: 2.1777777777777778rem;
+  margin-bottom: 0;
+  line-height: 1.1;
+}
+
+p,
+ol,
+ul {
+  font-size: 1.4rem;
+}
+p,
+li {
+  line-height: 2rem;
+}
+
+a {
+  color: var(--contrast-color);
+  text-decoration: none;
+}
+p > a,
+span > a,
+li > a {
+  color: var(--text-color);
+  text-decoration: none;
+  background: linear-gradient(var(--bg-color), var(--bg-color)),
+    linear-gradient(var(--bg-color), var(--bg-color)),
+    linear-gradient(currentColor, currentColor);
+  background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+  background-repeat: no-repeat, no-repeat, repeat-x;
+  text-shadow: 0.03em 0 var(--bg-color), -0.03em 0 var(--bg-color),
+    0 0.03em var(--bg-color), 0 -0.03em var(--bg-color),
+    0.06em 0 var(--bg-color), -0.06em 0 var(--bg-color),
+    0.09em 0 var(--bg-color), -0.09em 0 var(--bg-color);
+  background-position: 0% 93%, 100% 93%, 0% 93%;
+}
+
+.sans {
+  font-family: var(--sans-font);
+  letter-spacing: 0.03em;
+}
+
+pre,
+code {
+  font-family: var(--code-font);
+  font-size: 1.2rem;
+}
+
+hr.slender {
+  border: 0;
+  height: 1px;
+  margin-top: 1.4rem;
+  margin-bottom: 1.4rem;
+  background-image: linear-gradient(
+    left,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0)
+  );
+  background-image: -webkit-linear-gradient(
+    left,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0)
+  );
+}
+
+/* ---------- Nav (uppercase sans, like reference header) ---------- */
+header.site-header > nav.group {
+  width: 95%;
+  padding-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+header.site-header > nav.group a {
+  font-size: 1.2rem;
+  font-family: var(--sans-font);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--contrast-color);
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 0;
+  padding-right: 2rem;
+  vertical-align: baseline;
+}
+header.site-header > nav.group a:hover {
+  color: var(--text-color);
+}
+header.site-header > nav.group a.active:before {
+  content: "\0003c\000a0";
+}
+header.site-header > nav.group a.active:after {
+  content: "\000a0\0003e";
+}
+
+/* ---------- Footer ---------- */
+body footer.site-footer {
+  width: 95%;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+ul.footer-links {
+  list-style: none;
+  text-align: center;
+  margin: 0 auto;
+}
+ul.footer-links li {
+  display: inline;
+  padding: 0.5rem 0.25rem;
+}
+.credits {
+  font-family: var(--sans-font);
+  padding: 1rem 0rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+.credits a {
+  color: var(--contrast-color);
+}
+
+/* ---------- App panels: hairline boxes, no shadows, no rounding ---------- */
+.panel {
+  border: 1px solid var(--border-soft);
+  background: transparent;
+  padding: 1.6rem 1.8rem;
+  margin-bottom: 2rem;
+}
+.panel > h2,
+.panel > h3 {
+  margin-top: 0;
+}
+.panel-title {
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+}
+.panel-caption {
+  font-family: var(--sans-font);
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--border-color);
+}
+
+/* ---------- Upload dropzone ---------- */
+.dropzone {
+  border: 1px dashed var(--border-soft);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  color: var(--border-color);
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.dropzone:hover,
+.dropzone.dragover {
+  border-color: var(--contrast-color);
+  color: var(--contrast-color);
+  background: rgba(160, 0, 0, 0.03);
+}
+.dropzone-hint {
+  font-size: 1.5rem;
+  font-style: italic;
+}
+.dropzone-sub {
+  font-size: 1.05rem;
+  margin-top: 0.6rem;
+}
+.file-list-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 1.15rem;
+}
+.file-list {
+  border-top: 1px solid var(--border-soft);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  font-family: var(--sans-font);
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  padding: 0.7rem 1.2rem;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  display: inline-block;
+  text-align: center;
+}
+.btn:hover:not(:disabled) {
+  color: var(--contrast-color);
+  border-color: var(--contrast-color);
+}
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--contrast-color);
+  border-color: var(--contrast-color);
+  color: var(--bg-color);
+}
+.btn-primary:hover:not(:disabled) {
+  background: #7a0000;
+  border-color: #7a0000;
+  color: var(--bg-color);
+}
+.btn-quiet {
+  border-color: var(--border-soft);
+  color: var(--border-color);
+}
+.btn-sm {
+  padding: 0.3rem 0.8rem;
+  font-size: 1rem;
+}
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.2rem;
+}
+.import-label {
+  cursor: pointer;
+}
+
+/* ---------- Messages & hints ---------- */
+.message {
+  font-family: var(--sans-font);
+  font-size: 1.15rem;
+  padding: 0.8rem 1rem;
+  border-left: 3px solid var(--contrast-color);
+  color: var(--border-color);
+  background: rgba(160, 0, 0, 0.04);
+  margin-top: 1rem;
+}
+.hint {
+  font-size: 1.05rem;
+  color: var(--border-color);
+  margin-top: 0.8rem;
+}
+.subtitle {
+  color: var(--border-color);
+  font-size: 1.3rem;
+}
+.upload-msg {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  color: var(--border-color);
+}
+
+/* ---------- Guide (details/summary) ---------- */
+details.guide {
+  margin-top: 1.2rem;
+}
+details.guide > summary {
+  font-family: var(--sans-font);
+  font-size: 1.05rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--border-soft);
+  color: var(--border-color);
+  cursor: pointer;
+  display: inline-block;
+  list-style: none;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+details.guide > summary::-webkit-details-marker {
+  display: none;
+}
+details.guide > summary::before {
+  content: "\25B8\00A0";
+}
+details.guide[open] > summary::before {
+  content: "\25BE\00A0";
+}
+details.guide > summary:hover {
+  color: var(--contrast-color);
+  border-color: var(--contrast-color);
+}
+.guide-body {
+  margin-top: 0.8rem;
+  border: 1px solid var(--border-soft);
+  padding: 1rem 1.2rem;
+}
+.guide-body > p {
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+}
+.guide-body pre {
+  background: #111;
+  color: #eee;
+  padding: 0.8rem 1rem;
+  overflow-x: auto;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* ---------- Lists ---------- */
+.app-list {
+  list-style: none;
+}
+.app-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--sans-font);
+  font-size: 1.15rem;
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+.app-list li:last-child {
+  border-bottom: none;
+}
+.app-list .list-btn {
+  font-family: var(--sans-font);
+  font-size: 1rem;
+  background: none;
+  border: none;
+  color: var(--contrast-color);
+  cursor: pointer;
+}
+.app-list .list-btn:hover {
+  text-decoration: underline;
+}
+.file-size {
+  font-size: 0.95rem;
+  color: var(--border-color);
+  margin-left: 0.6rem;
+}
+
+/* ---------- Function list ---------- */
+.func-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.4rem;
+}
+.func-item {
+  border-left: 2px solid var(--border-soft);
+  padding: 0.3rem 0.8rem;
+}
+.func-item .func-name {
+  font-size: 1.25rem;
+}
+.func-item .func-file {
+  font-family: var(--sans-font);
+  font-size: 1rem;
+  color: var(--border-color);
+  display: block;
+}
+
+/* ---------- Build log terminal ---------- */
+.build-log {
+  font-family: var(--code-font);
+  font-size: 1.15rem;
+  line-height: 1.7;
+  background: #111111;
+  color: #fffff8;
+  padding: 1.2rem 1.4rem;
+  overflow: auto;
+  max-height: 24rem;
+  white-space: pre-wrap;
+}
+
+/* ---------- Graph viewer ---------- */
+.graph-shell {
+  border: 1px solid var(--border-soft);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+.graph-toolbar {
+  padding: 0.8rem 1.2rem;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(51, 51, 51, 0.03);
+}
+.graph-stats {
+  font-size: 1.05rem;
+  color: var(--border-color);
+}
+.graph-container {
+  overflow: hidden;
+}
+.graph-node-info {
+  padding: 1rem 1.4rem;
+  border-top: 1px solid var(--border-soft);
+  font-size: 1.25rem;
+}
+.graph-empty {
+  border: 1px solid var(--border-soft);
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--border-color);
+  margin-bottom: 2rem;
+}
+.empty-title {
+  font-style: italic;
+  font-size: 1.6rem;
+}
+.empty-sub {
+  font-size: 1.2rem;
+  margin-top: 0.8rem;
+}
+
+/* ---------- Printing ---------- */
+@media print {
+  *,
+  *:before,
+  *:after {
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    transition: none !important;
+  }
+  body header.site-header,
+  body footer.site-footer {
+    display: none;
+  }
+}

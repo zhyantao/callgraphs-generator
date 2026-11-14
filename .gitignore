@@ -1,3 +1,13 @@
-node_modules
-out
-.next
+# 环境与系统文件
+.DS_Store
+*.log
+.env*
+
+# 示例项目的本地编译产物（sample/ 下，make 生成）
+sample/*.o
+sample/*.elf
+sample/*.a
+sample/*.dump
+
+# WorkBuddy 会话记忆（个人数据，不入库；skills 如需共享可单独调整）
+.workbuddy/memory/
