@@ -638,12 +638,14 @@ details.guide > summary:hover {
   color: var(--border-color);
 }
 .info-sec {
-  margin-top: 0.5rem;
+  margin-top: 1rem;
 }
 .info-label {
   font-size: 1rem;
   color: var(--border-color);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--border-soft);
 }
 .chip-row {
   display: flex;
