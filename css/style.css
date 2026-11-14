@@ -569,3 +569,102 @@ details.guide > summary:hover {
   justify-content: flex-end;
   margin: 0;
 }
+
+/* ---------- 函数列表（联动 + 搜索） ---------- */
+.func-panel-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+.func-count {
+  font-size: 1.05rem;
+  color: var(--border-color);
+  font-weight: normal;
+  margin-left: 0.5rem;
+}
+.func-search {
+  font-family: var(--sans-font);
+  font-size: 1.15rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--border-soft);
+  background: #fffff8;
+  color: #111;
+  outline: none;
+  width: 100%;
+  max-width: 32rem;
+}
+.func-search:focus {
+  border-color: #a00000;
+}
+.func-item {
+  border-left: 2px solid var(--border-soft);
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+.func-item:hover {
+  background: rgba(160, 0, 0, 0.05);
+  border-left-color: #a00000;
+}
+.func-item.selected {
+  background: rgba(160, 0, 0, 0.08);
+  border-left: 3px solid #a00000;
+  padding-left: calc(0.8rem - 1px);
+}
+.func-item-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.func-degrees {
+  font-size: 0.95rem;
+  color: var(--border-color);
+  white-space: nowrap;
+}
+.func-empty {
+  color: var(--border-color);
+  font-style: italic;
+  padding: 0.5rem 0.8rem;
+}
+
+/* ---------- 节点信息面板（局部上下文） ---------- */
+.info-head {
+  margin-bottom: 0.6rem;
+}
+.info-file {
+  font-size: 1.05rem;
+  color: var(--border-color);
+}
+.info-sec {
+  margin-top: 0.5rem;
+}
+.info-label {
+  font-size: 1rem;
+  color: var(--border-color);
+  margin-bottom: 0.3rem;
+}
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.chip {
+  font-size: 1rem;
+  padding: 0.15rem 0.7rem;
+  border: 1px solid var(--border-soft);
+  background: rgba(160, 0, 0, 0.04);
+  color: #1a1a1a;
+  cursor: pointer;
+  border-radius: 2px;
+}
+.chip:hover {
+  border-color: #a00000;
+  background: rgba(160, 0, 0, 0.08);
+}
+.chip-empty {
+  font-size: 1rem;
+  color: var(--border-color);
+  font-style: italic;
+}

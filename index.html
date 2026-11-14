@@ -11,7 +11,7 @@
   <link rel="icon" href="./icons/favicon.ico" sizes="32x32" type="image/x-icon">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="./css/style.css?v=20261115b">
+  <link rel="stylesheet" href="./css/style.css?v=20261115c">
 </head>
 <body>
   <!-- Header / nav（与 zhyantao.github.io 博客站一致） -->
@@ -124,7 +124,8 @@ objdump -dr main.o &gt; main.dump</pre>
     <!-- 第三步：调用关系图 -->
     <div class="graph-shell" id="graph-shell" hidden>
       <div class="graph-toolbar">
-        <span class="panel-caption">调用关系图 (拖拽移动，滚轮缩放)</span>
+        <span class="panel-caption">调用关系图 (点击节点查看局部上下文，拖拽移动，滚轮缩放)</span>
+        <button id="btn-show-all" class="btn btn-quiet btn-sm" type="button" hidden>← 显示全部函数</button>
         <span class="sans graph-stats" id="graph-stats"></span>
       </div>
       <div class="graph-container" id="graph-container">
@@ -141,7 +142,11 @@ objdump -dr main.o &gt; main.dump</pre>
 
     <!-- 函数列表 -->
     <div class="panel" id="func-panel" hidden>
-      <h3 class="panel-title">函数列表</h3>
+      <div class="func-panel-head">
+        <h3 class="panel-title">函数列表 <span class="sans func-count" id="func-count"></span></h3>
+        <input id="func-search" class="func-search" type="search"
+               placeholder="按函数名 / 文件名过滤，点击函数查看其局部调用关系" autocomplete="off">
+      </div>
       <div class="func-grid" id="func-grid"></div>
     </div>
   </main>
@@ -176,10 +181,10 @@ objdump -dr main.o &gt; main.dump</pre>
   <script src="./vendor/d3.v7.min.js"></script>
   <script src="./vendor/jszip.min.js"></script>
   <!-- 应用逻辑（普通脚本，按依赖顺序加载；file:// 直接打开也可用） -->
-  <script src="./js/db.js?v=20261115b"></script>
-  <script src="./js/objdump-graph.js?v=20261115b"></script>
-  <script src="./js/func-list.js?v=20261115b"></script>
-  <script src="./js/viewer.js?v=20261115b"></script>
-  <script src="./js/main.js?v=20261115b"></script>
+  <script src="./js/db.js?v=20261115c"></script>
+  <script src="./js/objdump-graph.js?v=20261115c"></script>
+  <script src="./js/func-list.js?v=20261115c"></script>
+  <script src="./js/viewer.js?v=20261115c"></script>
+  <script src="./js/main.js?v=20261115c"></script>
 </body>
 </html>

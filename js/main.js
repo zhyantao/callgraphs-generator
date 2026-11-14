@@ -247,7 +247,7 @@ btnAnalyze.addEventListener('click', async () => {
 
     if (graph.nodes.length > 0) {
       callGraph = graph;
-      renderCallGraph(callGraph.nodes, callGraph.edges);
+      loadCallGraph(callGraph.nodes, callGraph.edges);
       graphTools.hidden = false;
       showMessage(`解析完成: ${graph.nodes.length} 个函数, ${graph.edges.length} 条调用关系`);
     } else {
@@ -295,7 +295,7 @@ $('btn-load-graph').addEventListener('click', async () => {
     const nodes = JSON.parse(latest.nodes);
     const edges = JSON.parse(latest.edges);
     callGraph = { nodes, edges };
-    renderCallGraph(nodes, edges);
+    loadCallGraph(nodes, edges);
     graphTools.hidden = false;
     showMessage('已加载最近保存的调用图');
   } catch (error) {
@@ -382,7 +382,7 @@ graphInput.addEventListener('change', async () => {
 
     if (nodes.length > 0) {
       callGraph = { nodes, edges };
-      renderCallGraph(nodes, edges);
+      loadCallGraph(nodes, edges);
       graphTools.hidden = false;
       showMessage(`已导入调用图: ${nodes.length} 个函数, ${edges.length} 个调用关系`);
     } else {
