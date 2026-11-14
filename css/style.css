@@ -536,3 +536,36 @@ details.guide > summary:hover {
     display: none;
   }
 }
+
+/* ---------- 确认弹窗 ---------- */
+.confirm-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.confirm-box {
+  background: #fffff8;
+  max-width: 26rem;
+  width: 100%;
+  padding: 1.6rem 2rem 1.3rem;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.confirm-text {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin: 0 0 1.4rem;
+  white-space: pre-line;
+}
+
+.confirm-box .btn-row {
+  justify-content: flex-end;
+  margin: 0;
+}

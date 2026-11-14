@@ -11,7 +11,7 @@
   <link rel="icon" href="./icons/favicon.ico" sizes="32x32" type="image/x-icon">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/style.css?v=20261115b">
 </head>
 <body>
   <!-- Header / nav（与 zhyantao.github.io 博客站一致） -->
@@ -161,14 +161,25 @@ objdump -dr main.o &gt; main.dump</pre>
     </div>
   </footer>
 
+  <!-- 确认弹窗（代替原生 confirm，避免被浏览器"禁止更多对话框"抑制） -->
+  <div id="confirm-modal" class="confirm-modal" hidden>
+    <div class="confirm-box" role="dialog" aria-modal="true" aria-labelledby="confirm-text">
+      <p class="confirm-text" id="confirm-text"></p>
+      <div class="btn-row">
+        <button id="confirm-cancel" class="btn btn-quiet" type="button">取消</button>
+        <button id="confirm-ok" class="btn btn-primary" type="button">确定清除</button>
+      </div>
+    </div>
+  </div>
+
   <!-- 第三方库（本地化，离线可用） -->
   <script src="./vendor/d3.v7.min.js"></script>
   <script src="./vendor/jszip.min.js"></script>
   <!-- 应用逻辑（普通脚本，按依赖顺序加载；file:// 直接打开也可用） -->
-  <script src="./js/db.js"></script>
-  <script src="./js/objdump-graph.js"></script>
-  <script src="./js/func-list.js"></script>
-  <script src="./js/viewer.js"></script>
-  <script src="./js/main.js"></script>
+  <script src="./js/db.js?v=20261115b"></script>
+  <script src="./js/objdump-graph.js?v=20261115b"></script>
+  <script src="./js/func-list.js?v=20261115b"></script>
+  <script src="./js/viewer.js?v=20261115b"></script>
+  <script src="./js/main.js?v=20261115b"></script>
 </body>
 </html>

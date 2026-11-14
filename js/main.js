@@ -168,9 +168,41 @@ btnLoadFiles.addEventListener('click', async () => {
   refreshUploadButtons();
 });
 
+// ------------------------------------------------------------- 确认弹窗
+// 用页面内弹窗代替原生 confirm：原生对话框可能被浏览器
+// （"禁止此页面显示更多对话框"）静默抑制，导致永远返回 false
+function confirmDialog(text) {
+  const modal = $('confirm-modal');
+  const ok = $('confirm-ok');
+  const cancel = $('confirm-cancel');
+  $('confirm-text').textContent = text;
+  modal.hidden = false;
+  return new Promise((resolve) => {
+    const done = (value) => {
+      modal.hidden = true;
+      ok.removeEventListener('click', onOk);
+      cancel.removeEventListener('click', onCancel);
+      modal.removeEventListener('click', onBackdrop);
+      document.removeEventListener('keydown', onKey);
+      resolve(value);
+    };
+    const onOk = () => done(true);
+    const onCancel = () => done(false);
+    const onBackdrop = (e) => { if (e.target === modal) done(false); };
+    const onKey = (e) => { if (e.key === 'Escape') done(false); };
+    ok.addEventListener('click', onOk);
+    cancel.addEventListener('click', onCancel);
+    modal.addEventListener('click', onBackdrop);
+    document.addEventListener('keydown', onKey);
+    ok.focus();
+  });
+}
+
 $('btn-clear-db').addEventListener('click', async () => {
-  const message = '确定清除浏览器中保存的全部数据吗？\n\n包括已保存的反汇编文件和调用关系图，此操作不可恢复。';
-  if (!window.confirm(message)) return;
+  const confirmed = await confirmDialog(
+    '确定清除浏览器中保存的全部数据吗？\n包括已保存的反汇编文件和调用关系图，此操作不可恢复。'
+  );
+  if (!confirmed) return;
   try {
     await clearAllData();
     files = [];
