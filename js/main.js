@@ -16,7 +16,7 @@ const btnLoadFiles = $('btn-load-files');
 
 const btnAnalyze = $('btn-analyze');
 const messageEl = $('message');
-const graphTools = $('graph-tools');
+const btnExportGraph = $('btn-export-graph');
 const graphInput = $('graph-input');
 
 const logShell = $('log-shell');
@@ -46,6 +46,7 @@ function appendLog(text) {
 function refreshUploadButtons() {
   btnSaveFiles.disabled = files.length === 0;
   btnAnalyze.disabled = files.length === 0 || analyzing;
+  btnExportGraph.disabled = callGraph.nodes.length === 0;
 }
 
 // ------------------------------------------------------------- 文件上传
@@ -248,7 +249,7 @@ btnAnalyze.addEventListener('click', async () => {
     if (graph.nodes.length > 0) {
       callGraph = graph;
       loadCallGraph(callGraph.nodes, callGraph.edges);
-      graphTools.hidden = false;
+      btnExportGraph.disabled = false;
       showMessage(`解析完成: ${graph.nodes.length} 个函数, ${graph.edges.length} 条调用关系`);
     } else {
       showMessage('未能提取到调用关系，请检查文件内容（见解析日志）');
@@ -268,43 +269,8 @@ btnCloseLog.addEventListener('click', () => {
   logShell.hidden = true;
 });
 
-// ------------------------------------------------------------- 保存 / 加载调用图
-$('btn-save-graph').addEventListener('click', async () => {
-  if (callGraph.nodes.length === 0) {
-    showMessage('没有可保存的调用图');
-    return;
-  }
-  try {
-    const edgesForSave = callGraph.edges.map((e) => ({ caller: e.caller, callee: e.callee }));
-    await saveCallGraph(`调用图 ${new Date().toLocaleString()}`, callGraph.nodes, edgesForSave);
-    showMessage('调用图已保存到浏览器本地数据库');
-  } catch (error) {
-    showMessage('保存失败');
-    console.error(error);
-  }
-});
-
-$('btn-load-graph').addEventListener('click', async () => {
-  try {
-    const graphs = await getCallGraphs();
-    if (graphs.length === 0) {
-      showMessage('没有保存的调用图');
-      return;
-    }
-    const latest = graphs[graphs.length - 1];
-    const nodes = JSON.parse(latest.nodes);
-    const edges = JSON.parse(latest.edges);
-    callGraph = { nodes, edges };
-    loadCallGraph(nodes, edges);
-    graphTools.hidden = false;
-    showMessage('已加载最近保存的调用图');
-  } catch (error) {
-    showMessage(`加载失败: ${error}`);
-    console.error(error);
-  }
-});
-
-// ------------------------------------------------------------- 导出 / 导入
+// ------------------------------------------------------------- 导出 / 导入调用图
+// （按钮位于「上传反汇编文本」栏；导出需先有解析/导入出的调用图）
 $('btn-export-graph').addEventListener('click', async () => {
   if (callGraph.nodes.length === 0) {
     showMessage('没有可导出的调用图');
@@ -383,7 +349,7 @@ graphInput.addEventListener('change', async () => {
     if (nodes.length > 0) {
       callGraph = { nodes, edges };
       loadCallGraph(nodes, edges);
-      graphTools.hidden = false;
+      btnExportGraph.disabled = false;
       showMessage(`已导入调用图: ${nodes.length} 个函数, ${edges.length} 个调用关系`);
     } else {
       showMessage('无效的调用图文件');
@@ -398,7 +364,7 @@ graphInput.addEventListener('change', async () => {
 
 // ------------------------------------------------------------- 启动自动恢复
 // 数据保存在 IndexedDB 中，刷新页面不会丢失；这里把上次保存的
-// 文件列表和最近的调用图自动恢复到界面，免去手动点"加载已保存"
+// 文件列表和最近的调用图自动恢复到界面，免去手动点"从浏览器加载"
 async function restoreLocalState() {
   try {
     const saved = await getSourceFiles();
@@ -416,7 +382,7 @@ async function restoreLocalState() {
       if (nodes.length > 0) {
         callGraph = { nodes, edges };
         loadCallGraph(nodes, edges);
-        graphTools.hidden = false;
+        btnExportGraph.disabled = false;
       }
     }
   } catch (error) {
