@@ -376,6 +376,7 @@ ul.footer-links li {
 /* ---------- Guide (details/summary) ---------- */
 details.guide {
   margin-top: 1.2rem;
+  margin-bottom: 1.2rem;
 }
 details.guide > summary {
   font-family: var(--sans-font);
