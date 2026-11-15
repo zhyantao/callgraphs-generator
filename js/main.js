@@ -273,7 +273,8 @@ btnCloseLog.addEventListener('click', () => {
 // （按钮位于「上传反汇编文本」栏；导出需先有解析/导入出的调用图）
 $('btn-export-graph').addEventListener('click', async () => {
   if (callGraph.nodes.length === 0) {
-    showMessage('没有可导出的调用图');
+    uploadMsg.textContent = '没有可导出的调用图';
+    uploadMsg.hidden = false;
     return;
   }
   try {
@@ -298,9 +299,11 @@ $('btn-export-graph').addEventListener('click', async () => {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    showMessage('调用图已导出到本地');
+    uploadMsg.textContent = '调用图已导出到本地';
+    uploadMsg.hidden = false;
   } catch (error) {
-    showMessage('导出失败');
+    uploadMsg.textContent = '导出失败';
+    uploadMsg.hidden = false;
     console.error(error);
   }
 });
@@ -350,12 +353,15 @@ graphInput.addEventListener('change', async () => {
       callGraph = { nodes, edges };
       loadCallGraph(nodes, edges);
       btnExportGraph.disabled = false;
-      showMessage(`已导入调用图: ${nodes.length} 个函数, ${edges.length} 个调用关系`);
+      uploadMsg.textContent = `已导入调用图: ${nodes.length} 个函数, ${edges.length} 个调用关系`;
+      uploadMsg.hidden = false;
     } else {
-      showMessage('无效的调用图文件');
+      uploadMsg.textContent = '无效的调用图文件';
+      uploadMsg.hidden = false;
     }
   } catch (error) {
-    showMessage('导入失败');
+    uploadMsg.textContent = '导入失败';
+    uploadMsg.hidden = false;
     console.error(error);
   }
 
