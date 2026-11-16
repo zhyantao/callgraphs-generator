@@ -228,6 +228,13 @@ ul.footer-links li {
   display: inline;
   padding: 0.5rem 0.25rem;
 }
+ul.footer-links a {
+  color: var(--contrast-color);
+  text-decoration: none;
+}
+ul.footer-links svg {
+  vertical-align: middle;
+}
 .credits {
   font-family: var(--sans-font);
   padding: 1rem 0rem;
