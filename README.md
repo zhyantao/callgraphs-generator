@@ -56,7 +56,7 @@ npx serve .
 ├── vendor/               # 第三方库本地化（离线可用）
 │   ├── d3.v7.min.js
 │   └── jszip.min.js
-├── fonts/et-book/        # 衬线正文字体（woff）
+├── fonts/et-book/        # 衬线正文字体（woff2/woff/ttf，已去除 hinting 修复 Windows 渲染）
 ├── icons/                # 网站图标
 │   ├── favicon.svg       # 矢量图标（现代浏览器）
 │   ├── favicon.ico       # 16/32 多尺寸（兼容旧浏览器）
